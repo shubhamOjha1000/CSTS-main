@@ -66,7 +66,7 @@ def trim_ego4d_videos(source_path, save_path, untrack_csv=None):
                         continue
 
                 clip = video.subclip(start, end)
-                clip.write_videofile(os.path.join(save_path, vid, f'{vid}_t{start}_t{end}.mp4'))
+                clip.write_videofile(os.path.join(save_path, vid, f'{vid}_t{start}_t{end}.mp4'), audio=True, audio_codec='aac')
 
 
 def trim_aria_videos(source_path, save_path):
@@ -261,8 +261,10 @@ def extract_audio(data_path, save_path, dataset):
                                   os.path.join(save_path, vid, clip.replace('mp4', 'wav'))]
                 subprocess.call(ffmpeg_command)
 
-        command = f'cp {os.path.join(os.path.dirname(data_path), "missing_audio/*")} {save_path}'
-        subprocess.call(command)
+        missing_audio_path = os.path.join(os.path.dirname(data_path), 'missing_audio')
+        if os.path.exists(missing_audio_path):
+            command = f'cp {missing_audio_path}/* {save_path}'
+            subprocess.call(command, shell=True)
 
     elif dataset == 'Aria':
         for vid in os.listdir(data_path):
