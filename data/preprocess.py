@@ -103,7 +103,7 @@ def get_ego4d_frame_label(data_path, save_path):
     all_untracked_num = 0
     os.makedirs(save_path, exist_ok=True)
     for ann_file in os.listdir(os.path.join(data_path, 'gaze')):
-        if ann_file == 'manifest.csv' or ann_file == 'manifest.ver':
+        if ann_file.startswith('.') or ann_file == 'manifest.csv' or ann_file == 'manifest.ver':
             continue
         vid = ann_file.split('.')[0]
         with open(os.path.join(data_path, 'gaze', ann_file), 'r', encoding='utf-8', errors='ignore') as f:
