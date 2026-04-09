@@ -309,7 +309,7 @@ def main():
     # Uncomment this code block to run preprocessing on Ego4D dataset ------------------------------------------------
      path_to_ego4d = '/content/drive/MyDrive/Cross-Distillaion-Research-dataset/Ego4D_eg_Dataset'  # change this to your own path
     #
-    """
+     """
      source_path = f'{path_to_ego4d}/full_scale.gaze'
      save_path = f'{path_to_ego4d}/clips.gaze'
      untracked_csv = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ego4d_gaze_untracked.csv')
