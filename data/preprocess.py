@@ -106,7 +106,7 @@ def get_ego4d_frame_label(data_path, save_path):
         if ann_file == 'manifest.csv' or ann_file == 'manifest.ver':
             continue
         vid = ann_file.split('.')[0]
-        with open(os.path.join(data_path, 'gaze', ann_file), 'r') as f:
+        with open(os.path.join(data_path, 'gaze', ann_file), 'r', encoding='utf-8', errors='ignore') as f:
             lines = [line for i, line in enumerate(csv.reader(f)) if i > 0]
 
         container = av.open(os.path.join(data_path, 'full_scale.gaze', f'{vid}.mp4'))
