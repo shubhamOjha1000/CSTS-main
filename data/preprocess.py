@@ -116,13 +116,17 @@ def get_ego4d_frame_label(data_path, save_path):
 
         j = 0
         gaze_loc = list()
+        t0 = float(lines[0][1])  # first timestamp as reference (absolute µs → relative)
         for i in tqdm(range(frames_length), leave=False):
             time_stamp = i * 1 / fps  # find the accurate time stamp of each frame
             if j >= len(lines) - 2:
                 break
-            while float(lines[j][1]) / 1e6 < time_stamp:  # search the closest time of recorded location (timestamp in microseconds)
+            while (float(lines[j][1]) - t0) / 1e6 < time_stamp:  # relative timestamp in seconds
                 j += 1
-            row = lines[j - 1] if abs(float(lines[j - 1][1]) / 1e6 - time_stamp) < abs(float(lines[j][1]) / 1e6 - time_stamp) else lines[j]
+            if j == 0:
+                row = lines[0]
+            else:
+                row = lines[j - 1] if abs((float(lines[j - 1][1]) - t0) / 1e6 - time_stamp) < abs((float(lines[j][1]) - t0) / 1e6 - time_stamp) else lines[j]
             x, y = float(row[2]) / 1088, 1 - float(row[3]) / 1080  # normalize pixel coords to [0,1]; y flipped from bottom-left origin
 
             if i == 0:
